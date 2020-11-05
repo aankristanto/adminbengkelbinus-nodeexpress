@@ -84,7 +84,6 @@ app.get('/app/service/close', (req,res) => {
     res.render('service-close', {layout: 'user'});
 });
 
-
 app.get('/app/payment/new', (req,res) => {
     res.render('payment-new', {layout: 'user'});
 });
