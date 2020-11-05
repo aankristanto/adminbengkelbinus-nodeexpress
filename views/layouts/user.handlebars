@@ -31,7 +31,7 @@
             -webkit-font-smoothing: antialiased
         }
         .baris {
-            padding-left: 300px;
+            padding-left: 200px;
         }
 
         @media only screen and (max-width : 992px) {
@@ -44,22 +44,18 @@
     </style>
 </head>
 <body>
-    <ul id="slide-out" class="sidenav sidenav-fixed z-depth-2">
+    <ul id="slide-out" class="sidenav sidenav-fixed z-depth-2" style="max-width: 200px;">
     <li>
-        <div class="user-view">
-            <div class="background">
-                <img src="/images/bg1.jpg">
-            </div>
-            <a href="#user"><img class="circle responsive-img" src="/images/logobinus.webp"></a>
-            <a href="#name"><span class="white-text name">Username</span></a>
-            <a href="#email"><span class="white-text email">Administrator</span></a>
+        <div class="user-view red">
+            <a><span class="white-text name">Username</span></a>
+            <a><span class="white-text email">Administrator</span></a>
         </div>
     </li>
-    <li><a href="/app/dashboard">DASHBOARD</a></li>
+    <li class="red white-text hoverable"><a href="/app/dashboard" class="white-text"><b>DASHBOARD</b></a></li>
     <li>
         <ul class="collapsible collapsible-accordion">
             <li>
-                <a class="collapsible-header">SERVICE</a>
+                <a class="collapsible-header red white-text hoverable"><b>&nbsp; &nbsp; SERVICE</b></a>
                 <div class="collapsible-body">
                     <ul>
                         <li><a href="/app/service/new">INPUT SERVICE</a></li>
@@ -75,7 +71,7 @@
     <li>
         <ul class="collapsible collapsible-accordion">
             <li>
-                <a class="collapsible-header">PAYMENT</a>
+                <a class="collapsible-header red white-text hoverable"><b>&nbsp; &nbsp; PAYMENT</b></a>
                 <div class="collapsible-body">
                     <ul>
                         <li><a href="/app/payment/new">INPUT PAYMENT</a></li>
