@@ -57,79 +57,42 @@ app.use(session({
 
 
 app.get('/', (req,res) => {
-    res.render('landing-page', {layout: 'index'});
+    res.render('landing', {layout: 'index'});
 });
 
-// route to app client
-
-app.get('/app/login', (req, res) =>{
-    session = req.session;
-    console.log(session);
-    if(session.user){
-        res.redirect('/app/dashboard');
-    } else {
-        res.render('app/login', {
-            layout: 'index',
-            titlepage: 'Login - App Afiliate SMK Bina Nusantara Semarang'
-        });
-    }
+app.get('/app/dashboard', (req,res) => {
+    res.render('dashboard', {layout: 'user'});
 });
 
-app.get('/app/loginfailed', (req, res) => {
-    session = req.session;
-    console.log(session);
-    if(session.user){
-        res.redirect('/app/dashboard');
-    } else {
-        res.render('app/loginfailed', {
-            layout: 'index',
-            titlepage: 'Login - App Afiliate SMK Bina Nusantara Semarang'
-        });
-    }
+app.get('/app/service/new', (req,res) => {
+    res.render('service-new', {layout: 'user'});
 });
 
-app.post('/app/auth', (req, res) => {
-    var usernames = req.body.username;
-    var passwords = md5(req.body.password);
-    if(usernames && passwords){
-        koneksi.query('SELECT * FROM tbl_users WHERE s_username = ? AND  s_password = ? AND s_level = "SISWA"', [usernames, passwords], (error, hasil) => {
-            if(hasil.length > 0){
-                console.log(hasil);
-                req.session.loggedin = true;
-                    req.session.user = {
-                        username: usernames,
-                        level: 'SISWA'
-                    };
-                    console.log('username ' + req.session.user.username + ' is login');
-                    console.log("Session Before Redirect: ", req.session);
-                    res.redirect('/app/dashboard');
-            } else {
-                console.log('username ' + usernames + ' with password ' + passwords + ' is failed to login');
-                res.redirect('/app/loginfailed');
-            }
-        });
-    } else {
-        res.send('Please enter Username and Password!');
-		res.end();
-    }
+app.get('/app/service/data', (req,res) => {
+    res.render('service-data', {layout: 'user'});
 });
 
-app.get('/app/dashboard', (req, res) => {
-    session = req.session;
-    console.log(session);
-    if(session.user){
-        var username = session.user.username;
-        var sqlprofile = koneksi.query('SELECT * FROM tbl_users WHERE s_username = ?', username, (err, hasil)=> {
-            if(err) throw err;
-            res.render('app/dashboard', {
-                layout: 'index', 
-                titlepage: 'Dashboard - App Afiliate SMK Bina Nusantara Semarang',
-                hasil: hasil});
-        });
-    } else {
-        res.redirect('/app/login');
-    }
+app.get('/app/service/new-arrival', (req,res) => {
+    res.render('service-newarrival', {layout: 'user'});
 });
+
+app.get('/app/service/process', (req,res) => {
+    res.render('service-process', {layout: 'user'});
+});
+
+app.get('/app/service/close', (req,res) => {
+    res.render('service-close', {layout: 'user'});
+});
+
+
+app.get('/app/payment/new', (req,res) => {
+    res.render('payment-new', {layout: 'user'});
+});
+
+app.get('/app/payment/data', (req,res) => {
+    res.render('payment-data', {layout: 'user'});
+});
+
 
 
 app.listen(port, () => {
