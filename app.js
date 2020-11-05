@@ -92,7 +92,15 @@ app.get('/app/payment/data', (req,res) => {
     res.render('payment-data', {layout: 'user'});
 });
 
-
+/*
+app.post('/app/inputservice', (req, res) => {
+    const csname = req.body.customername;
+    koneksi.query("INSERT INTO service(customer_name) VALUES(?)", [csname] , (err, hasil) => {
+        if(err) throw err;
+        res.send("input data berhasil");
+    });
+});
+*/
 
 app.listen(port, () => {
     console.log(`App adminbengkelbinus starting from port ${port}`);
