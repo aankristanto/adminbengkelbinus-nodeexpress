@@ -73,15 +73,24 @@ app.get('/app/service/data', (req,res) => {
 });
 
 app.get('/app/service/new-arrival', (req,res) => {
-    res.render('service-newarrival', {layout: 'user'});
+    koneksi.query('SELECT * FROM services INNER JOIN customers ON services.customer_id=customers.customer_id WHERE status="N_A" ', (err, hasil) => {
+        if(err) throw err;
+        res.render('service-newarrival', {layout: 'user', data: hasil});
+    });
 });
 
 app.get('/app/service/process', (req,res) => {
-    res.render('service-process', {layout: 'user'});
+    koneksi.query('SELECT * FROM services INNER JOIN customers ON services.customer_id=customers.customer_id WHERE status="PROCESS" ', (err, hasil) => {
+        if(err) throw err;
+        res.render('service-process', {layout: 'user', data: hasil});
+    });
 });
 
 app.get('/app/service/close', (req,res) => {
-    res.render('service-close', {layout: 'user'});
+    koneksi.query('SELECT * FROM services INNER JOIN customers ON services.customer_id=customers.customer_id WHERE status="CLOSE" ', (err, hasil) => {
+        if(err) throw err;
+        res.render('service-close', {layout: 'user', data: hasil});
+    });
 });
 
 app.get('/app/payment/new', (req,res) => {

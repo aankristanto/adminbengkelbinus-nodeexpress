@@ -18,28 +18,28 @@
                     <tr>
                         <th class="center">NO</th>
                         <th class="center">ID SERVICE</th>
-                        <th class="center">DATE IN</th>
+                        <th class="center" style="width: 10%;">DATE IN</th>
                         <th class="center">CUSTOMER</th>
                         <th class="center">REQUEST</th>
-                        <th class="center">STATUS</th>
-                        <th class="center">TECHNICIAN</th>
+                        <th class="center">NOPOL</th>
+                        <th class="center">NO.RANGKA / NO.MESIN</th>
                         <th class="center"> </th>
                     </tr>
                 </thead>
 
                 <tbody>
+                    {{#each data}}
                     <tr>
                         <td class="center">1.</td>
-                        <td class="center grey lighten-3">70001</td>
-                        <td class="center">2020-11-05 15:30:02</td>
-                        <td class="center grey lighten-3">Mulyadi</td>
-                        <td>Mesin Brebet, dihidupkan / starter tidak jalan</td>
-                        <td class="center grey lighten-3">PROCESS</td>
-                        <td class="center">Sardi</td>
+                        <td class="center grey lighten-3">{{ id_service }}</td>
+                        <td class="center" style="width: 10%;">{{ date_in }}</td>
+                        <td class="center grey lighten-3">{{ customer_name }}</td>
+                        <td>{{ keterangan }}</td>
+                        <td class="center grey lighten-3">{{ nopol}}</td>
+                        <td class="center">{{ norangka }} / {{ nomesin }}</td>
                         <td class="center"><button class="btn btn-floating red"><i class="material-icons">edit</i></button></td>
-                        
                     </tr>
-                    
+                    {{/each}}
                 </tbody>
             </table>
         </div>
