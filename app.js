@@ -92,20 +92,39 @@ app.get('/app/payment/new/:idservice', (req,res) => {
     res.render('payment-input', {layout: 'user'});
 });
 
-
 app.get('/app/payment/data', (req,res) => {
     res.render('payment-data', {layout: 'user'});
 });
 
-/*
 app.post('/app/inputservice', (req, res) => {
-    const csname = req.body.customername;
-    koneksi.query("INSERT INTO service(customer_name) VALUES(?)", [csname] , (err, hasil) => {
+    var customername = req.body.customername;
+    var customerphone = req.body.customerphone;
+    var customeraddress = req.body.customeraddress;
+    var customerjeniskendaraan = req.body.customerjeniskendaraan;
+    var customernopol = req.body.customernopol;
+    var customertahunkendaraan = req.body.customertahunkendaraan;
+    var customernorangka = req.body.customernorangka;
+    var customernomesin = req.body.customernomesin;
+    var customerhondanonhonda = req.body.customerhondanonhonda;
+    var customerrequest = customerrequest;
+    koneksi.query('INSERT INTO customers(customer_name, customer_phone, customer_address) VALUES(?, ?, ?)', [customername, customerphone, customeraddress], (err, hasil) => {
         if(err) throw err;
-        res.send("input data berhasil");
+        koneksi.query('SELECT customer_id FROM customers WHERE customer_name=? AND customer_phone=? AND customer_address=?', [customername, customerphone, customeraddress], (err, hasil1) => {
+            if(hasil1.length == 0){
+                console.log('kosong')
+            } else {
+                console.log('customer id found 1');
+                var customerid = parseInt(hasil1[0].customer_id);
+                var timenow = Date.now();
+                var statusservice = "N_A"; 
+                koneksi.query('INSERT INTO services(jeniskendaraan) VALUES(?)'), [customerjeniskendaraan], (err, hasil2) => {
+                    if(err) throw err;
+                }
+            }
+        });
+        res.redirect('/app/payment/new');
     });
 });
-*/
 
 app.listen(port, () => {
     console.log(`App adminbengkelbinus starting from port ${port}`);
