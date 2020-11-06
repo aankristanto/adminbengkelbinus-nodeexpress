@@ -88,6 +88,11 @@ app.get('/app/payment/new', (req,res) => {
     res.render('payment-new', {layout: 'user'});
 });
 
+app.get('/app/payment/new/:idservice', (req,res) => {
+    res.render('payment-input', {layout: 'user'});
+});
+
+
 app.get('/app/payment/data', (req,res) => {
     res.render('payment-data', {layout: 'user'});
 });
