@@ -141,6 +141,11 @@ app.post('/app/inputservice', (req, res) => {
     });
 });
 
+// handle url not found
+app.get('*', (req, res) => {
+    res.redirect('/app/dashboard');
+});
+
 app.listen(port, () => {
     console.log(`App adminbengkelbinus starting from port ${port}`);
 });
