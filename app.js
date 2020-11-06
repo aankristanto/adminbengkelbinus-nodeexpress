@@ -97,33 +97,38 @@ app.get('/app/payment/data', (req,res) => {
 });
 
 app.post('/app/inputservice', (req, res) => {
-    var customername = req.body.customername;
-    var customerphone = req.body.customerphone;
-    var customeraddress = req.body.customeraddress;
-    var customerjeniskendaraan = req.body.customerjeniskendaraan;
-    var customernopol = req.body.customernopol;
-    var customertahunkendaraan = req.body.customertahunkendaraan;
-    var customernorangka = req.body.customernorangka;
-    var customernomesin = req.body.customernomesin;
-    var customerhondanonhonda = req.body.customerhondanonhonda;
-    var customerrequest = req.body.customerrequest;
-    koneksi.query('INSERT INTO customers(customer_name, customer_phone, customer_address) VALUES(?, ?, ?)', [customername, customerphone, customeraddress], (err, hasil) => {
+    var customername            = req.body.customername;
+    var customerphone           = req.body.customerphone;
+    var customeraddress         = req.body.customeraddress;
+    var customerjeniskendaraan  = req.body.customerjeniskendaraan;
+    var customernopol           = req.body.customernopol;
+    var customertahunkendaraan  = req.body.customertahunkendaraan;
+    var customernorangka        = req.body.customernorangka;
+    var customernomesin         = req.body.customernomesin;
+    var customerhondanonhonda   = req.body.customerhondanonhonda;
+    var customerrequest         = req.body.customerrequest;
+    koneksi.query('INSERT INTO customers(customer_name, customer_phone, customer_address) VALUES(?, ?, ?)', 
+    [customername, customerphone, customeraddress], (err, hasil) => {
         if(err) throw err;
-        koneksi.query('SELECT customer_id FROM customers WHERE customer_name=? AND customer_phone=? AND customer_address=?', [customername, customerphone, customeraddress], (err, hasil1) => {
+        koneksi.query('SELECT customer_id FROM customers WHERE customer_name=? AND customer_phone=? AND customer_address=?', 
+        [customername, customerphone, customeraddress], (err, hasil1) => {
             if(hasil1.length == 0){
                 console.log('kosong')
             } else {
                 console.log('customer id found 1');
                 var customerid = parseInt(hasil1[0].customer_id);
-                var timenow = Date.now();
-                var statusservice = "N_A"; 
                 koneksi.query('INSERT INTO services(customer_id, jeniskendaraan, nopol, tahunkendaraan, norangka, nomesin, keterangan, date_in, status, merkhonda) VALUES(?, ?, ?, ?, ?, ?, ?, NOW(), "N_A", ?)', 
                 [customerid, customerjeniskendaraan, customernopol, customertahunkendaraan, customernorangka, customernomesin, customerrequest, customerhondanonhonda], (err, hasil2) => {
                     if(err) throw err;
                 });
+                koneksi.query('SELECT id_service FROM services WHERE customer_id=? AND nopol=? AND date_in=NOW()',
+                [customerid, customernopol], (err, hasil2) => {
+                    if(err) throw err;
+                    var idservicenow = parseInt(hasil2[0].id_service);
+                    res.redirect('/app/payment/new/' + idservicenow);
+                });
             }
         });
-        res.redirect('/app/payment/new');
     });
 });
 
