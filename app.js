@@ -105,6 +105,7 @@ app.get('/app/payment/data', (req,res) => {
     res.render('payment-data', {layout: 'user'});
 });
 
+// POST input service new
 app.post('/app/inputservice', (req, res) => {
     var customername            = req.body.customername;
     var customerphone           = req.body.customerphone;
