@@ -1,18 +1,17 @@
-var express = require('express');
-var app = express();
-var port = 3000;
-var handlebars = require('express-handlebars');
-var helpers = require('handlebars-helpers')();
-var session = require('express-session');
-var bodyParser = require('body-parser');
-var cors = require('cors');
-var compression = require('compression');
-var mysql = require('mysql');
-var md5 = require('md5');
-var {check, validationResult } = require('express-validator');
-var async = require('async');
-const { use } = require('passport');
+const express       = require('express');
+const handlebars    = require('express-handlebars');
+const helpers       = require('handlebars-helpers')();
+const session       = require('express-session');
+const bodyParser    = require('body-parser');
+const cors          = require('cors');
+const compression   = require('compression');
+const mysql         = require('mysql');
+const md5           = require('md5');
+const async         = require('async');
+const { use }       = require('passport');
 
+const app   = express();
+const port  = 3000;
 
 app.use(express.static('public'));
 app.set('view engine', 'handlebars');
@@ -142,7 +141,7 @@ app.post('/app/inputservice', (req, res) => {
     });
 });
 
-// handle url not found
+// handle url not found and redirect to dashboard
 app.get('*', (req, res) => {
     res.redirect('/app/dashboard');
 });
