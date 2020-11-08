@@ -119,7 +119,7 @@ app.post('/app/inputservice', (req, res) => {
     koneksi.query('INSERT INTO customers(customer_name, customer_phone, customer_address) VALUES(?, ?, ?)', 
     [customername, customerphone, customeraddress], (err, hasil) => {
         if(err) throw err;
-        koneksi.query('SELECT customer_id FROM customers WHERE customer_name=? AND customer_phone=? AND customer_address=?', 
+        koneksi.query('SELECT customer_id FROM customers WHERE customer_name=? AND customer_phone=? AND customer_address=? LIMIT 1 DESC', 
         [customername, customerphone, customeraddress], (err, hasil1) => {
             if(hasil1.length == 0){
                 console.log('kosong')
