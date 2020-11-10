@@ -141,8 +141,7 @@ app.post('/app/inputservice', (req, res) => {
                     koneksi.query('SELECT id_service FROM services WHERE customer_id=? AND nopol=? AND date_in=NOW()',
                     [customerid, customernopol], (err, hasil2) => {
                     if(err) throw err;
-                    var idservicenow = parseInt(hasil2[0].id_service);
-                    res.redirect('/app/payment/new/' + idservicenow);
+                    res.redirect('/app/service/new-arrival');
                 });
             });  
         });
@@ -158,7 +157,17 @@ app.post('/app/set-service-process', (req, res) => {
             res.redirect('/app/service/process');
         }
     )
+});
 
+app.post('/app/set-service/close', (req, res) => {
+    var idservice = req.body.idservice;
+    var resolvdetail = req.body.inputresolv;
+    koneksi.query("UPDATE services SET resolving_detail=?, status='CLOSE' WHERE id_service=?",
+        [resolvdetail, idservice], (err, hasil) => {
+            if(err) throw err;
+            res.redirect('/app/payment/new/' + idservice);
+        }
+    )
 });
 
 // handle url not found and redirect to dashboard
