@@ -30,15 +30,36 @@
                 <tbody>
                     {{#each data}}
                     <tr>
-                        <td class="center">1.</td>
+                        <td class="center">{{ inc }}</td>
                         <td class="center grey lighten-3">{{ id_service }}</td>
                         <td class="center" style="width: 10%;">{{ date_in }}</td>
                         <td class="center grey lighten-3">{{ customer_name }}</td>
                         <td>{{ keterangan }}</td>
                         <td class="center grey lighten-3">{{ nopol}}</td>
                         <td class="center">{{ norangka }} / {{ nomesin }}</td>
-                        <td class="center"><button class="btn btn-floating red"><i class="material-icons">edit</i></button></td>
+                        <td class="center"><a class="btn btn-floating red modal-trigger" href="#modal{{ id_service }}"><i class="material-icons">send</i></a></td>
                     </tr>
+
+                    <!-- Modal Structure -->
+                    <div id="modal{{ id_service }}" class="modal" style="max-width: 400px;">
+                        <div class="input-field modal-content">
+                            <h4>CLOSE SERVICE {{ id_service }}</h4>
+                            <form action="/app/set-service-close" method="POST">
+                            <div class="row">
+                                <div class="col s12 input-field">
+                                    <input type="hidden" name="idservice" value="{{ id_service }}">
+                                    <textarea  class="materialize-textarea" id="input_resolv" type="text" name="inputresolv" required></textarea>
+                                    <label for="input_resolv">Tindakan / Penyelesaian</label>
+                                </div>
+                                <div class="col s12 input-field">
+                                    <button class="btn waves-effect waves-light red" type="submit" name="action">Submit
+                                        <i class="material-icons right">send</i>
+                                    </button>
+                                </div>
+                            </div>
+                            </form>
+                        </div>
+                    </div>
                     {{/each}}
                 </tbody>
             </table>

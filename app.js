@@ -149,8 +149,8 @@ app.post('/app/inputservice', (req, res) => {
 });
 
 app.post('/app/set-service-process', (req, res) => {
-    var idservice = req.body.idservice;
-    var teknisi = req.body.inputteknisi;
+    var idservice   = req.body.idservice;
+    var teknisi     = req.body.inputteknisi;
     koneksi.query("UPDATE services SET technician=?, status='PROCESS' WHERE id_service=?",
         [ teknisi, idservice ], (err, hasil) => {
             if(err) throw err;
@@ -159,10 +159,10 @@ app.post('/app/set-service-process', (req, res) => {
     )
 });
 
-app.post('/app/set-service/close', (req, res) => {
-    var idservice = req.body.idservice;
-    var resolvdetail = req.body.inputresolv;
-    koneksi.query("UPDATE services SET resolving_detail=?, status='CLOSE' WHERE id_service=?",
+app.post('/app/set-service-close', (req, res) => {
+    var idservice       = req.body.idservice;
+    var resolvdetail    = req.body.inputresolv;
+    koneksi.query("UPDATE services SET resolving_detail=?, status='CLOSE', date_close=NOW() WHERE id_service=?",
         [resolvdetail, idservice], (err, hasil) => {
             if(err) throw err;
             res.redirect('/app/payment/new/' + idservice);

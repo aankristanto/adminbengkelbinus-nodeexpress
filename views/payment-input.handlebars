@@ -17,7 +17,7 @@
             <p>TANGGAL MASUK</p>
         </div>
         <div class="col l4 m4 s6">
-            <input class="black-text" type="date" value="{{ dateFormat date_in }}" disabled>
+            <input class="datepicker black-text" type="text" value="{{ date_in }}" disabled>
         </div>
         <div class="col l2 m2 s6">
             <p>CUSTOMER</p>
@@ -38,36 +38,36 @@
             <input class="black-text" type="text" value="{{ jeniskendaraan }}" disabled>
         </div>
         <div class="col l2 m2 s6">
-            <p>MERK</p>
+            <p>HONDA (1) / NON(0)</p>
         </div>
         <div class="col l4 m4 s6">
-            <input class="black-text" type="text" value="HONDA" disabled>
+            <input class="black-text" type="text" value="{{ merkhonda }}" disabled>
         </div>
         <!-- block -->
         <div class="col l2 m2 s6">
             <p>NOPOL</p>
         </div>
         <div class="col l4 m4 s6">
-            <input class="black-text" type="text" value="H 5655 CB" disabled>
+            <input class="black-text" type="text" value="{{ nopol }}" disabled>
         </div>
         <div class="col l2 m2 s6">
             <p>NO RANGKA</p>
         </div>
         <div class="col l4 m4 s6">
-            <input class="black-text" type="text" value="JHFIR999403IVR" disabled>
+            <input class="black-text" type="text" value="{{ norangka }}" disabled>
         </div>
         <!-- block -->
         <div class="col l2 m2 s6">
             <p>NO MESIN</p>
         </div>
         <div class="col l4 m4 s6">
-            <input class="black-text" type="text" value="NDEO92IOEMF03" disabled>
+            <input class="black-text" type="text" value="{{ nomesin }}" disabled>
         </div>
         <div class="col l2 m2 s6">
             <p>SERVICE FINISH</p>
         </div>
         <div class="col l4 m4 s6">
-            <input class="black-text" type="date" value="2020-11-05" disabled>
+            <input class="datepicker black-text" type="text" value="{{ date_close }}" disabled>
         </div>
         <form>
         <div class="input-field col l6 m6 s12" id="formInputBayar">
