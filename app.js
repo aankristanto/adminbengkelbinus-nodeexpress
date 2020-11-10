@@ -22,6 +22,9 @@ app.engine('handlebars', handlebars({
     helpers: {
         inc: function(value, options){
             return parseInt(value) + 1;
+        },
+        dateFormat: function(value, options){
+            return Date(value);
         }
     }
 }));
@@ -94,11 +97,18 @@ app.get('/app/service/close', (req,res) => {
 });
 
 app.get('/app/payment/new', (req,res) => {
-    res.render('payment-new', {layout: 'user'});
+    koneksi.query("SELECT * FROM services INNER JOIN customers ON services.customer_id=customers.customer_id WHERE services.id_payment='' OR services.id_payment IS NULL AND status='CLOSE' ", (err, hasil) => {
+        if(err) throw err;
+        res.render('payment-new', {layout: 'user', data: hasil});
+    });
 });
 
 app.get('/app/payment/new/:idservice', (req,res) => {
-    res.render('payment-input', {layout: 'user'});
+    var idservice = req.params.idservice;
+    koneksi.query("SELECT * FROM services INNER JOIN customers ON services.customer_id=customers.customer_id WHERE services.id_service=?  ", [idservice], (err, hasil) => {
+        if(err) throw err;
+        res.render('payment-input', {layout: 'user', data: hasil});
+    });
 });
 
 app.get('/app/payment/data', (req,res) => {
@@ -120,26 +130,35 @@ app.post('/app/inputservice', (req, res) => {
     koneksi.query('INSERT INTO customers(customer_name, customer_phone, customer_address) VALUES(?, ?, ?)', 
     [customername, customerphone, customeraddress], (err, hasil) => {
         if(err) throw err;
-        koneksi.query('SELECT customer_id FROM customers WHERE customer_name=? AND customer_phone=? AND customer_address=? LIMIT 1 DESC', 
+        koneksi.query('SELECT customer_id FROM customers WHERE customer_name=? AND customer_phone=? AND customer_address=? LIMIT 1', 
         [customername, customerphone, customeraddress], (err, hasil1) => {
-            if(hasil1.length == 0){
-                console.log('kosong')
-            } else {
-                console.log('customer id found 1');
-                var customerid = parseInt(hasil1[0].customer_id);
-                koneksi.query('INSERT INTO services(customer_id, jeniskendaraan, nopol, tahunkendaraan, norangka, nomesin, keterangan, date_in, status, merkhonda) VALUES(?, ?, ?, ?, ?, ?, ?, NOW(), "N_A", ?)', 
+            if(err) throw err;
+            console.log('customer id found 1');
+            var customerid = parseInt(hasil1[0].customer_id);
+            koneksi.query('INSERT INTO services(customer_id, jeniskendaraan, nopol, tahunkendaraan, norangka, nomesin, keterangan, date_in, status, merkhonda) VALUES(?, ?, ?, ?, ?, ?, ?, NOW(), "N_A", ?)', 
                 [customerid, customerjeniskendaraan, customernopol, customertahunkendaraan, customernorangka, customernomesin, customerrequest, customerhondanonhonda], (err, hasil2) => {
                     if(err) throw err;
-                });
-                koneksi.query('SELECT id_service FROM services WHERE customer_id=? AND nopol=? AND date_in=NOW()',
-                [customerid, customernopol], (err, hasil2) => {
+                    koneksi.query('SELECT id_service FROM services WHERE customer_id=? AND nopol=? AND date_in=NOW()',
+                    [customerid, customernopol], (err, hasil2) => {
                     if(err) throw err;
                     var idservicenow = parseInt(hasil2[0].id_service);
                     res.redirect('/app/payment/new/' + idservicenow);
                 });
-            }
+            });  
         });
     });
+});
+
+app.post('/app/set-service-process', (req, res) => {
+    var idservice = req.body.idservice;
+    var teknisi = req.body.inputteknisi;
+    koneksi.query("UPDATE services SET technician=?, status='PROCESS' WHERE id_service=?",
+        [ teknisi, idservice ], (err, hasil) => {
+            if(err) throw err;
+            res.redirect('/app/service/process');
+        }
+    )
+
 });
 
 // handle url not found and redirect to dashboard

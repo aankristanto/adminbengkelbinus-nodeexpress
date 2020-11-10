@@ -1,3 +1,4 @@
+{{#each data}}
 <div class="baris">
     <div class="row">
         <div class="col s12">
@@ -10,31 +11,31 @@
             <p>ID SERVICE</p>
         </div>
         <div class="col l4 m4 s6">
-            <input class="black-text" type="text" value="70001" disabled>
+            <input class="black-text" type="text" value="{{ id_service }}" disabled>
         </div>
         <div class="col l2 m2 s6">
             <p>TANGGAL MASUK</p>
         </div>
         <div class="col l4 m4 s6">
-            <input class="black-text" type="date" value="2020-11-05" disabled>
+            <input class="black-text" type="date" value="{{ dateFormat date_in }}" disabled>
         </div>
         <div class="col l2 m2 s6">
             <p>CUSTOMER</p>
         </div>
         <div class="col l4 m4 s6">
-            <input class="black-text" type="text" value="Mulyadi" disabled>
+            <input class="black-text" type="text" value="{{ customer_name }}" disabled>
         </div>
         <div class="col l2 m2 s6">
             <p>ALAMAT</p>
         </div>
         <div class="col l4 m4 s6">
-            <input class="black-text" type="text" value="Jl. Kehidupan Mulya No. 7" disabled>
+            <input class="black-text" type="text" value="{{ customer_address }}" disabled>
         </div>
         <div class="col l2 m2 s6">
             <p>JENIS KENDARAAN</p>
         </div>
         <div class="col l4 m4 s6">
-            <input class="black-text" type="text" value="Revo" disabled>
+            <input class="black-text" type="text" value="{{ jeniskendaraan }}" disabled>
         </div>
         <div class="col l2 m2 s6">
             <p>MERK</p>
@@ -95,3 +96,4 @@
         </form>
     </div>
 </div>
+{{/each}}

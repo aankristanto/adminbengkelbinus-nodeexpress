@@ -37,8 +37,29 @@
                         <td>{{ keterangan }}</td>
                         <td class="center grey lighten-3">{{ nopol}}</td>
                         <td class="center">{{ norangka }} / {{ nomesin }}</td>
-                        <td class="center"><button class="btn btn-floating red"><i class="material-icons">edit</i></button></td>
+                        <td class="center"><a class="btn btn-floating red modal-trigger" href="#modal{{ id_service }}"><i class="material-icons">send</i></a></td>
                     </tr>
+
+                    <!-- Modal Structure -->
+                    <div id="modal{{ id_service }}" class="modal" style="max-width: 400px;">
+                        <div class="input-field modal-content">
+                            <h4>PROCESS SERVICE {{ id_service }}</h4>
+                            <form action="/app/set-service-process" method="POST">
+                            <div class="row">
+                                <div class="col s12 input-field">
+                                    <input type="hidden" name="idservice" value="{{ id_service }}">
+                                    <input id="input_teknisi" type="text" name="inputteknisi" required>
+                                    <label for="input_teknisi">Teknisi</label>
+                                </div>
+                                <div class="col s12 input-field">
+                                    <button class="btn waves-effect waves-light red" type="submit" name="action">Submit
+                                        <i class="material-icons right">send</i>
+                                    </button>
+                                </div>
+                            </div>
+                            </form>
+                        </div>
+                    </div>
                     {{/each}}
                 </tbody>
             </table>
