@@ -7,93 +7,140 @@
     </div>
     <hr />
     <div class="row">
-        <div class="col l2 m2 s6">
-            <p>ID SERVICE</p>
-        </div>
-        <div class="col l4 m4 s6">
-            <input class="black-text" type="text" value="{{ id_service }}" disabled>
-        </div>
-        <div class="col l2 m2 s6">
-            <p>TANGGAL MASUK</p>
-        </div>
-        <div class="col l4 m4 s6">
-            <input class="datepicker black-text" type="text" value="{{ date_in }}" disabled>
-        </div>
-        <div class="col l2 m2 s6">
-            <p>CUSTOMER</p>
-        </div>
-        <div class="col l4 m4 s6">
-            <input class="black-text" type="text" value="{{ customer_name }}" disabled>
-        </div>
-        <div class="col l2 m2 s6">
-            <p>ALAMAT</p>
-        </div>
-        <div class="col l4 m4 s6">
-            <input class="black-text" type="text" value="{{ customer_address }}" disabled>
-        </div>
-        <div class="col l2 m2 s6">
-            <p>JENIS KENDARAAN</p>
-        </div>
-        <div class="col l4 m4 s6">
-            <input class="black-text" type="text" value="{{ jeniskendaraan }}" disabled>
-        </div>
-        <div class="col l2 m2 s6">
-            <p>HONDA (1) / NON(0)</p>
-        </div>
-        <div class="col l4 m4 s6">
-            <input class="black-text" type="text" value="{{ merkhonda }}" disabled>
-        </div>
-        <!-- block -->
-        <div class="col l2 m2 s6">
-            <p>NOPOL</p>
-        </div>
-        <div class="col l4 m4 s6">
-            <input class="black-text" type="text" value="{{ nopol }}" disabled>
-        </div>
-        <div class="col l2 m2 s6">
-            <p>NO RANGKA</p>
-        </div>
-        <div class="col l4 m4 s6">
-            <input class="black-text" type="text" value="{{ norangka }}" disabled>
-        </div>
-        <!-- block -->
-        <div class="col l2 m2 s6">
-            <p>NO MESIN</p>
-        </div>
-        <div class="col l4 m4 s6">
-            <input class="black-text" type="text" value="{{ nomesin }}" disabled>
-        </div>
-        <div class="col l2 m2 s6">
-            <p>SERVICE FINISH</p>
-        </div>
-        <div class="col l4 m4 s6">
-            <input class="datepicker black-text" type="text" value="{{ date_close }}" disabled>
-        </div>
-        <form>
-        <div class="input-field col l6 m6 s12" id="formInputBayar">
-            Rincian Pembayaran<br/>
+        <div class="col l5 m5 s12">
             <div class="row">
-                <div class="input-field col l6 m6 s12">
-                    <input type="text" class="inputdetailbayar" name="inputdetailbayar1" placeholder="Barang / Jasa">
-                    <input type="text" class="inputdetailbayar" name="inputdetailbayar2" placeholder="Barang / Jasa">
-                    <input type="text" class="inputdetailbayar" name="inputdetailbayar3" placeholder="Barang / Jasa">
-                    <input type="text" class="inputdetailbayar" name="inputdetailbayar4" placeholder="Barang / Jasa">
-                    <input type="text" class="inputdetailbayar" name="inputdetailbayar5" placeholder="Barang / Jasa">
+                <div class="col l5 m5 s12">
+                    <p>ID SERVICE</p>
                 </div>
-                <div class="input-field col l6 m6 s12">
-                    <input type="number" class="inputbiayabayar" name="inputbiayabayar1" placeholder="Rp.">
-                    <input type="number" class="inputbiayabayar" name="inputbiayabayar2" placeholder="Rp.">
-                    <input type="number" class="inputbiayabayar" name="inputbiayabayar3" placeholder="Rp.">
-                    <input type="number" class="inputbiayabayar" name="inputbiayabayar4" placeholder="Rp.">
-                    <input type="number" class="inputbiayabayar" name="inputbiayabayar5" placeholder="Rp.">
+                <div class="col l7 m7 s12">
+                    <input class="black-text" type="text" value="{{ id_service }}" disabled>
+                </div>
+                <div class="col l5 m5 s12">
+                    <p>TANGGAL MASUK</p>
+                </div>
+                <div class="col l7 m7 s12">
+                    <input class="datepicker black-text" type="text" value="{{ date_in }}" disabled>
+                </div>
+                <div class="col l5 m5 s12">
+                    <p>CUSTOMER</p>
+                </div>
+                <div class="col l7 m7 s12">
+                    <input class="black-text" type="text" value="{{ customer_name }}" disabled>
+                </div>
+                <div class="col l5 m5 s12">
+                    <p>JENIS KENDARAAN</p>
+                </div>
+                <div class="col l7 m7 s12">
+                    <input class="black-text" type="text" value="{{ jeniskendaraan }}" disabled>
+                </div>
+                <div class="col l5 m5 s12">
+                    <p>HONDA (1) / NON(0)</p>
+                </div>
+                <div class="col l7 m7 s12">
+                    <input class="black-text" type="text" value="{{ merkhonda }}" disabled>
+                </div>
+                <!-- block -->
+                <div class="col l5 m5 s12">
+                    <p>NOPOL</p>
+                </div>
+                <div class="col l7 m7 s12">
+                    <input class="black-text" type="text" value="{{ nopol }}" disabled>
+                </div>
+                <div class="col l5 m5 s12">
+                    <p>NO RANGKA</p>
+                </div>
+                <div class="col l7 m7 s12">
+                    <input class="black-text" type="text" value="{{ norangka }}" disabled>
+                </div>
+                <!-- block -->
+                <div class="col l5 m5 s12">
+                    <p>NO MESIN</p>
+                </div>
+                <div class="col l6 m6 s12">
+                    <input class="black-text" type="text" value="{{ nomesin }}" disabled>
+                </div>
+                <div class="col l5 m5 s12">
+                    <p>SERVICE FINISH</p>
+                </div>
+                <div class="col l6 m6 s12">
+                    <input class="datepicker black-text" type="text" value="{{ date_close }}" disabled>
                 </div>
             </div>
         </div>
-        <div class="col input-field l6 m6 s12">
-            <input type="number" id="totalbayar">
-            <label for="totalbayar">TOTAL</label>
+        <div class="col l7 m7 s12">
+            <form action="/app/set-payment" method="POST" target="_blank">
+                    <div class="row">
+                        <div class="col s12">
+                            <b>Rincian Pembayaran</b>
+                        </div>
+                        <div class="input-field col l6 m6 s12">
+                            <input type="text" class="inputdetailbayar" name="inputdetailbayar1"
+                                placeholder="Barang / Jasa">
+                            <input type="text" class="inputdetailbayar" name="inputdetailbayar2"
+                                placeholder="Barang / Jasa">
+                            <input type="text" class="inputdetailbayar" name="inputdetailbayar3"
+                                placeholder="Barang / Jasa">
+                            <input type="text" class="inputdetailbayar" name="inputdetailbayar4"
+                                placeholder="Barang / Jasa">
+                            <input type="text" class="inputdetailbayar" name="inputdetailbayar5"
+                                placeholder="Barang / Jasa">
+                        </div>
+                        <div class="input-field col l6 m6 s12">
+                            <input onchange="hitungTotal()" type="number" class="inputbiayabayar"
+                                name="inputbiayabayar1" id="biaya1" placeholder="Rp.">
+                            <input onchange="hitungTotal()" type="number" class="inputbiayabayar"
+                                name="inputbiayabayar2" id="biaya2" placeholder="Rp.">
+                            <input onchange="hitungTotal()" type="number" class="inputbiayabayar"
+                                name="inputbiayabayar3" id="biaya3" placeholder="Rp.">
+                            <input onchange="hitungTotal()" type="number" class="inputbiayabayar"
+                                name="inputbiayabayar4" id="biaya4" placeholder="Rp.">
+                            <input onchange="hitungTotal()" type="number" class="inputbiayabayar"
+                                name="inputbiayabayar5" id="biaya5" placeholder="Rp.">
+                        </div>
+                        <div class="col input-field l6 m6 s12">
+                            <span><b>Total Biaya</b></span>
+                            <input class="black-text" type="number" id="totalbiaya" disabled>
+                        </div>
+                        <div class="col input-field l6 m6 s12">
+                            <span><b>Total Bayar</b></span>
+                            <input onchange="hitungKembalian()" class="black-text" type="number" id="totalbayar">
+                        </div>
+                        <div class="col input-field l6 m6 s12">
+                            <span><b>Kembalian</b></span>
+                            <input class="black-text" type="number" id="totalkembalian" disabled>
+                        </div>
+                        <div class="col input-field l6 m6 s12">
+                             <button class="btn btn-large waves-effect waves-light" type="submit" id="tblbayar" name="tblbayar">BAYAR
+                                <i class="material-icons right">send</i>
+                            </button>
+                        </div>
+                    </div>
+            </form>
         </div>
-        </form>
     </div>
 </div>
+<script>
+    function hitungTotal(){
+        var harga1 = parseInt(document.getElementById("biaya1").value) || 0;
+        var harga2 = parseInt(document.getElementById("biaya2").value) || 0;
+        var harga3 = parseInt(document.getElementById("biaya3").value) || 0;
+        var harga4 = parseInt(document.getElementById("biaya4").value) || 0;
+        var harga5 = parseInt(document.getElementById("biaya5").value) || 0;
+        var totalbayar = harga1 + harga2 + harga3 + harga4 + harga5;
+        document.getElementById("totalbiaya").value = totalbayar;
+    }
+    function hitungKembalian(){
+        var totalbayar = parseInt(document.getElementById("totalbayar").value) || 0;
+        var totalbiaya = parseInt(document.getElementById("totalbiaya").value) || 0;
+        var kembalian = totalbayar - totalbiaya;
+        var tblbayar = document.getElementById("tblbayar");
+        if(kembalian < 0){
+            tblbayar.disabled = true;
+            alert("Total Bayar harus Lebih Dari / Sama Dengan Total Biaya!");
+        } else {
+            tblbayar.disabled = false;
+            document.getElementById("totalkembalian").value = kembalian;
+        }
+    }
+</script>
 {{/each}}

@@ -115,6 +115,11 @@ app.get('/app/payment/data', (req,res) => {
     res.render('payment-data', {layout: 'user'});
 });
 
+app.get('/app/payment/print-receipt', (req, res) => {
+    var idservice = req.body.idservice;
+    res.render('payment-receipt', {layout: 'print-receipt'});
+});
+
 // POST input service new
 app.post('/app/inputservice', (req, res) => {
     var customername            = req.body.customername;
