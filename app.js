@@ -115,8 +115,8 @@ app.get('/app/payment/data', (req,res) => {
     res.render('payment-data', {layout: 'user'});
 });
 
-app.get('/app/payment/print-receipt', (req, res) => {
-    var idservice = req.body.idservice;
+app.get('/app/payment/print-receipt/:idservice', (req, res) => {
+    var idservice = req.params.idservice;
     res.render('payment-receipt', {layout: 'print-receipt'});
 });
 
@@ -171,6 +171,37 @@ app.post('/app/set-service-close', (req, res) => {
         [resolvdetail, idservice], (err, hasil) => {
             if(err) throw err;
             res.redirect('/app/payment/new/' + idservice);
+        }
+    )
+});
+
+app.post('/app/set-payment', (req, res) => {
+    var waktuskrg       = Date.now();
+    var idservice       = req.body.inputidservice;
+    var detailbayar1    = req.body.inputdetailbayar1 || "-";
+    var detailbayar2    = req.body.inputdetailbayar2 || "-";
+    var detailbayar3    = req.body.inputdetailbayar3 || "-";
+    var detailbayar4    = req.body.inputdetailbayar4 || "-";
+    var detailbayar5    = req.body.inputdetailbayar5 || "-";
+    var biayabayar1     = req.body.inputbiayabayar1 || 0;
+    var biayabayar2     = req.body.inputbiayabayar2 || 0;
+    var biayabayar3     = req.body.inputbiayabayar3 || 0;
+    var biayabayar4     = req.body.inputbiayabayar4 || 0;
+    var biayabayar5     = req.body.inputbiayabayar5 || 0;
+    var totalbiaya      = req.body.inputtotalbiaya;
+    var totalbayar      = req.body.inputtotalbayar;
+    var totalkembalian  = req.body.inputtotalkembalian;
+    var idpayment       = idservice + waktuskrg;
+    koneksi.query("INSERT INTO payments_data(id_payment, id_service, barangjasa1, barangjasa2, barangjasa3, barangjasa4, barangjasa5, biaya1, biaya2, biaya3, biaya4, biaya5, totalbiaya, totalbayar, totalkembalian, trx_date) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?, NOW())",
+        [ idpayment, idservice, detailbayar1, detailbayar2, detailbayar3, detailbayar4, detailbayar5, biayabayar1, biayabayar2, biayabayar3, biayabayar4, biayabayar5, totalbiaya, totalbayar, totalkembalian],
+        (err, hasil) => {
+            if(err) throw err;
+            koneksi.query("UPDATE services SET id_payment=? WHERE id_service=? AND status='CLOSE' ",
+            [ idpayment, idservice], (err, hasil) => {
+                    if(err) throw err;
+                    res.redirect('/app/payment/print-receipt/' + idservice);
+                }
+            )
         }
     )
 });

@@ -74,6 +74,7 @@
                             <b>Rincian Pembayaran</b>
                         </div>
                         <div class="input-field col l6 m6 s12">
+                            <input type="text" name="inputidservice" value="{{ id_service }}" hidden>
                             <input type="text" class="inputdetailbayar" name="inputdetailbayar1"
                                 placeholder="Barang / Jasa">
                             <input type="text" class="inputdetailbayar" name="inputdetailbayar2"
@@ -99,15 +100,15 @@
                         </div>
                         <div class="col input-field l6 m6 s12">
                             <span><b>Total Biaya</b></span>
-                            <input class="black-text" type="number" id="totalbiaya" disabled>
+                            <input class="black-text" type="number" name="inputtotalbiaya" id="totalbiaya">
                         </div>
                         <div class="col input-field l6 m6 s12">
                             <span><b>Total Bayar</b></span>
-                            <input onchange="hitungKembalian()" class="black-text" type="number" id="totalbayar">
+                            <input onchange="hitungKembalian()" class="black-text" name="inputtotalbayar" type="number" id="totalbayar">
                         </div>
                         <div class="col input-field l6 m6 s12">
                             <span><b>Kembalian</b></span>
-                            <input class="black-text" type="number" id="totalkembalian" disabled>
+                            <input class="black-text" type="number" name="inputtotalkembalian" id="totalkembalian">
                         </div>
                         <div class="col input-field l6 m6 s12">
                              <button class="btn btn-large waves-effect waves-light" type="submit" id="tblbayar" name="tblbayar">BAYAR
@@ -120,6 +121,10 @@
     </div>
 </div>
 <script>
+    window.onload = function TblBayarStartup(){
+        var tblbayar = document.getElementById("tblbayar");
+        tblbayar.disabled = true;
+    }
     function hitungTotal(){
         var harga1 = parseInt(document.getElementById("biaya1").value) || 0;
         var harga2 = parseInt(document.getElementById("biaya2").value) || 0;
