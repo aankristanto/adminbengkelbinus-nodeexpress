@@ -117,6 +117,7 @@ app.get('/app/payment/data', (req,res) => {
 
 app.get('/app/payment/print-receipt/:idservice', (req, res) => {
     var idservice = req.params.idservice;
+    koneksi.query("SELECT * FROM ")
     res.render('payment-receipt', {layout: 'print-receipt'});
 });
 
