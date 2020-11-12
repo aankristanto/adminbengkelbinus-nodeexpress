@@ -7,7 +7,28 @@
     <hr />
     <div class="row">
         <div class="col s12">
-
+            <table>
+                <thead class="red white-text">
+                    <tr>
+                        <th class="center">NO.</th>
+                        <th class="center">ID PAYMENT</th>
+                        <th class="center">ID SERVICE</th>
+                        <th class="center">DATE</th>
+                        <th class="center">AMOUNT</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each data}}
+                    <tr>
+                        <td class="center">{{ @index }}</td>
+                        <td class="center">{{ id_payment }}</td>
+                        <td class="center">{{ id_service }}</td>
+                        <td class="center">{{ trx_date }}</td>
+                        <td class="center">{{ totalbiaya }}</td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
         </div>
     </div>
 </div>

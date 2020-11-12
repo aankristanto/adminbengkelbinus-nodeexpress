@@ -112,7 +112,11 @@ app.get('/app/payment/new/:idservice', (req,res) => {
 });
 
 app.get('/app/payment/data', (req,res) => {
-    res.render('payment-data', {layout: 'user'});
+    koneksi.query("SELECT * FROM payments_data INNER JOIN services ON services.id_service=payments_data.id_service", (err, hasil) => {
+        if(err) throw err;
+        res.render('payment-data', {layout: 'user', data: hasil});
+    });
+    
 });
 
 app.get('/app/payment/print-receipt/:idservice', (req, res) => {
