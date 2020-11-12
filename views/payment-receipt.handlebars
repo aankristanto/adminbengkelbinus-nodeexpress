@@ -12,13 +12,17 @@
     <table>
         <tr>
             <td><img src="../../../images/logobinus.webp" style="width: 50px;"></td>
-            <td style="text-align:center; font-size:small"><p><b>TEACHING FACTORY<br/>SMK BINA NUSANTARA SEMARANG</b><br/>Telp / WA 024-8662971</p></td>
+            <td style="text-align:center; font-size:small"><p><b>TEACHING FACTORY<br/>SMK BINA NUSANTARA SEMARANG</b><br/>Telp/WA 024-8662971</p></td>
             <td><img src="../../../images/hona-logo.png" style="width: 50px;"></td>
         </tr>
     </table>
     <br/>
     <div style="width: 100%; text-align:center; font-size:small">
-        {{id_service}} / LINDA / {{trx_date}}
+        <table style="margin-left:auto; margin-right:auto;">
+            <tr>
+                <td style="text-align: center;">{{id_service}}</td><td style="text-align: center;">/ LINDA / </td><td id="tglnow" style="text-align: center;"></td>
+            </tr>
+        </table>
     </div>
     <div style="width: 100%; text-align:center;">
         <b>-------------------------------</b>
@@ -69,6 +73,7 @@
         <br/>
     </div>
 </div>
+<script src="../../../js/moment.js"></script>
 <script>
     function FormatRupiah(value){
         var	reverse = value.toString().split('').reverse().join(''),
@@ -76,6 +81,11 @@
 	    ribuan  = ribuan.join('.').split('').reverse().join('');
         return ribuan;
     }
+    function updateLatestDate(sensorsData) {
+        return new Date(Math.max.apply(null, sensorsData.map(function (e) {
+            return new Date(e.MeasureDate).toUTCString();
+        })));
+    }  
     window.onload = function renderNominal(){
         var b1 = document.getElementById("biaya1").value;
         var b2 = document.getElementById("biaya2").value;
@@ -85,6 +95,7 @@
         var b6 = document.getElementById("totalbiaya").value;
         var b7 = document.getElementById("totalbayar").value;
         var b8 = document.getElementById("totalkembalian").value;
+        var tglreceipt = moment().format("D-MM-YYYY");
         document.getElementById("b1").innerHTML = "Rp. " + FormatRupiah(b1);
         document.getElementById("b2").innerHTML = "Rp. " + FormatRupiah(b2);
         document.getElementById("b3").innerHTML = "Rp. " + FormatRupiah(b3);
@@ -93,6 +104,7 @@
         document.getElementById("b6").innerHTML = "Rp. " + FormatRupiah(b6);
         document.getElementById("b7").innerHTML = "Rp. " + FormatRupiah(b7);
         document.getElementById("b8").innerHTML = "Rp. " + FormatRupiah(b8);
+        document.getElementById("tglnow").innerHTML = tglreceipt;   
     }
 
 </script>
