@@ -1,43 +1,99 @@
-<div style="width: 8cm;">
-    <div style="width: 100%; text-align:center;">
-        <h3><b>BENGKEL BINUSA</b></h3>
-        <p><i>Melayani Dengan Hati</i></p>
-        <br/><br/>
+{{#each data}}
+<input type="hidden" id="biaya1" value="{{biaya1}}">
+<input type="hidden" id="biaya2" value="{{biaya2}}">
+<input type="hidden" id="biaya3" value="{{biaya3}}">
+<input type="hidden" id="biaya4" value="{{biaya4}}">
+<input type="hidden" id="biaya5" value="{{biaya5}}">
+<input type="hidden" id="totalbiaya" value="{{totalbiaya}}">
+<input type="hidden" id="totalbayar" value="{{totalbayar}}">
+<input type="hidden" id="totalkembalian" value="{{totalkembalian}}">
+
+<div style="width: 8cm; font-family:'Courier New', Courier, monospace;">
+    <table>
+        <tr>
+            <td><img src="../../../images/logobinus.webp" style="width: 50px;"></td>
+            <td style="text-align:center; font-size:small"><p><b>TEACHING FACTORY<br/>SMK BINA NUSANTARA SEMARANG</b><br/>Telp / WA 024-8662971</p></td>
+            <td><img src="../../../images/hona-logo.png" style="width: 50px;"></td>
+        </tr>
+    </table>
+    <br/>
+    <div style="width: 100%; text-align:center; font-size:small">
+        {{id_service}} / LINDA / {{trx_date}}
     </div>
     <div style="width: 100%; text-align:center;">
-        <p>20001 / LINDA / 10-11-2020 15:35</p>
-    </div>
-    <div style="width: 100%; text-align:center;">
-        <p>-----------------------------------------------------</p>
+        <b>-------------------------------</b>
     </div>
     <div style="width: 100%;">
-        <table style="font-size: small; width: 8cm;">
+        <table style="font-size: small; width: 8cm; font-size:small;">
             <tr>
                 <td><b>BARANG / JASA</b></td>
                 <td><b>HARGA</b></td>
             </tr>
             <tr>
-                <td>Service Kampas</td>
-                <td>Rp. 12.000</td>
+                <td id="j1">{{barangjasa1}}</td>
+                <td id="b1"></td>
+            </tr>
+            <tr>
+                <td id="j2">{{barangjasa2}}</td>
+                <td id="b2"></td>
+            </tr>
+            <tr>
+                <td id="j3">{{barangjasa3}}</td>
+                <td id="b3"></td>
+            </tr>
+            <tr>
+                <td id="j4">{{barangjasa4}}</td>
+                <td id="b4"></td>
+            </tr>
+            <tr>
+                <td id="j5">{{barangjasa5}}</td>
+                <td id="b5"></td>
             </tr>
             <tr>
                 <td style="text-align: right;">TOTAL &nbsp;</td>
-                <td>Rp. 12.000</td>
+                <td id="b6"></td>
             </tr>
             <tr>
                 <td style="text-align: right;">BAYAR &nbsp;</td>
-                <td>Rp. 12.000</td>
+                <td id="b7"></td>
             </tr>
             <tr>
                 <td style="text-align: right;">KEMBALIAN &nbsp;</td>
-                <td>Rp. 0</td>
+                <td id="b8"></td>
             </tr>
         </table>
     </div>
     <div style="width: 100%; text-align:center;">
-        <p>-----------------------------------------------------</p>
-        <p>BB10001HA</p>
+        <b>-------------------------------</b>
+        <p>{{ id_payment }}</p>
         <br/>
     </div>
 </div>
+<script>
+    function FormatRupiah(value){
+        var	reverse = value.toString().split('').reverse().join(''),
+	    ribuan  = reverse.match(/\d{1,3}/g);
+	    ribuan  = ribuan.join('.').split('').reverse().join('');
+        return ribuan;
+    }
+    window.onload = function renderNominal(){
+        var b1 = document.getElementById("biaya1").value;
+        var b2 = document.getElementById("biaya2").value;
+        var b3 = document.getElementById("biaya3").value;
+        var b4 = document.getElementById("biaya4").value;
+        var b5 = document.getElementById("biaya5").value;
+        var b6 = document.getElementById("totalbiaya").value;
+        var b7 = document.getElementById("totalbayar").value;
+        var b8 = document.getElementById("totalkembalian").value;
+        document.getElementById("b1").innerHTML = "Rp. " + FormatRupiah(b1);
+        document.getElementById("b2").innerHTML = "Rp. " + FormatRupiah(b2);
+        document.getElementById("b3").innerHTML = "Rp. " + FormatRupiah(b3);
+        document.getElementById("b4").innerHTML = "Rp. " + FormatRupiah(b4);
+        document.getElementById("b5").innerHTML = "Rp. " + FormatRupiah(b5);
+        document.getElementById("b6").innerHTML = "Rp. " + FormatRupiah(b6);
+        document.getElementById("b7").innerHTML = "Rp. " + FormatRupiah(b7);
+        document.getElementById("b8").innerHTML = "Rp. " + FormatRupiah(b8);
+    }
 
+</script>
+{{/each}}

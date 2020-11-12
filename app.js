@@ -117,8 +117,10 @@ app.get('/app/payment/data', (req,res) => {
 
 app.get('/app/payment/print-receipt/:idservice', (req, res) => {
     var idservice = req.params.idservice;
-    koneksi.query("SELECT * FROM ")
-    res.render('payment-receipt', {layout: 'print-receipt'});
+    koneksi.query("SELECT * FROM payments_data WHERE id_service=? ", [idservice], (err, hasil) => {
+        if(err) throw err;
+        res.render('payment-receipt', {layout: 'print-receipt', data: hasil});
+    });
 });
 
 // POST input service new
@@ -179,11 +181,11 @@ app.post('/app/set-service-close', (req, res) => {
 app.post('/app/set-payment', (req, res) => {
     var waktuskrg       = Date.now();
     var idservice       = req.body.inputidservice;
-    var detailbayar1    = req.body.inputdetailbayar1 || "-";
-    var detailbayar2    = req.body.inputdetailbayar2 || "-";
-    var detailbayar3    = req.body.inputdetailbayar3 || "-";
-    var detailbayar4    = req.body.inputdetailbayar4 || "-";
-    var detailbayar5    = req.body.inputdetailbayar5 || "-";
+    var detailbayar1    = req.body.inputdetailbayar1 || "";
+    var detailbayar2    = req.body.inputdetailbayar2 || "";
+    var detailbayar3    = req.body.inputdetailbayar3 || "";
+    var detailbayar4    = req.body.inputdetailbayar4 || "";
+    var detailbayar5    = req.body.inputdetailbayar5 || "";
     var biayabayar1     = req.body.inputbiayabayar1 || 0;
     var biayabayar2     = req.body.inputbiayabayar2 || 0;
     var biayabayar3     = req.body.inputbiayabayar3 || 0;
@@ -200,7 +202,12 @@ app.post('/app/set-payment', (req, res) => {
             koneksi.query("UPDATE services SET id_payment=? WHERE id_service=? AND status='CLOSE' ",
             [ idpayment, idservice], (err, hasil) => {
                     if(err) throw err;
-                    res.redirect('/app/payment/print-receipt/' + idservice);
+                    if(hasil.length = 0){
+                        res.send("Data not found");
+                    } else {
+                        res.redirect('/app/payment/print-receipt/' + idservice);
+                    }
+                    
                 }
             )
         }
