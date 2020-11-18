@@ -9,9 +9,10 @@ const mysql         = require('mysql');
 const md5           = require('md5');
 const async         = require('async');
 const { use }       = require('passport');
+const excel         = require('excel4node');
 
 const app   = express();
-const port  = 3000;
+const port  = 8000;
 
 app.use(express.static('public'));
 app.set('view engine', 'handlebars');
@@ -125,6 +126,24 @@ app.get('/app/payment/print-receipt/:idservice', (req, res) => {
         if(err) throw err;
         res.render('payment-receipt', {layout: 'print-receipt', data: hasil});
     });
+});
+
+app.get('/app/payment/data/export/:idmerk/:periode', (req, res) => {
+    var idmerk = req.params.idmerk;
+    var periode = req.params.periode;
+    if(idmerk == 0){
+        koneksi.query("SELECT * FROM payments_data INNER JOIN services ON services.id_service=payments_data.id_service WHERE merkhonda=0", (err, hasil) => {
+            if(err) throw err;
+            res.send("Honda");
+        });
+    } else if(idmerk == 1){
+        koneksi.query("SELECT * FROM payments_data INNER JOIN services ON services.id_service=payments_data.id_service WHERE merkhonda=1", (err, hasil) => {
+            if(err) throw err;
+            res.send("Non Honda");
+        });
+    } else {
+        res.send("DATA INVALID!")
+    }
 });
 
 // POST input service new
