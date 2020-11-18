@@ -9,7 +9,7 @@ const mysql         = require('mysql');
 const md5           = require('md5');
 const async         = require('async');
 const { use }       = require('passport');
-const excel         = require('excel4node');
+var excel         = require('excel4node');
 
 const app   = express();
 const port  = 8000;
@@ -128,22 +128,51 @@ app.get('/app/payment/print-receipt/:idservice', (req, res) => {
     });
 });
 
-app.get('/app/payment/data/export/:idmerk/:periode', (req, res) => {
-    var idmerk = req.params.idmerk;
-    var periode = req.params.periode;
-    if(idmerk == 0){
-        koneksi.query("SELECT * FROM payments_data INNER JOIN services ON services.id_service=payments_data.id_service WHERE merkhonda=0", (err, hasil) => {
-            if(err) throw err;
-            res.send("Honda");
+app.post('/app/payment/data/export', (req, res) => {
+    var periode1    = req.body.inputperiode1;
+    var periode2    = req.body.inputperiode2;
+    koneksi.query("SELECT * FROM payments_data INNER JOIN services ON services.id_service=payments_data.id_service WHERE trx_date BETWEEN ? AND ? AND status='CLOSE'",
+    [periode1, periode2], (err, hasil) => {
+        if(err) throw err;
+        var data1 = JSON.parse(JSON.stringify(hasil));
+        //console.log(data1[0].totalbayar);
+        //res.json(hasil);
+        console.log(data1.length);
+        var workbook = new excel.Workbook();
+        var worksheet = workbook.addWorksheet('Honda');
+        var style = workbook.createStyle({
+            font: {
+              color: '#FF0800',
+              size: 12
+            }
         });
-    } else if(idmerk == 1){
-        koneksi.query("SELECT * FROM payments_data INNER JOIN services ON services.id_service=payments_data.id_service WHERE merkhonda=1", (err, hasil) => {
-            if(err) throw err;
-            res.send("Non Honda");
-        });
-    } else {
-        res.send("DATA INVALID!")
-    }
+        worksheet.cell(1,1).string('REPORT PAYMENT - PERIODE' + periode1 + ' TO ' + periode2).style(style);
+        worksheet.cell(2,1).string('NO').style(style);
+        worksheet.cell(2,2).string('ID SERVICE').style(style);
+        worksheet.cell(2,3).string('ID PAYMENT').style(style);
+        worksheet.cell(2,4).string('ID CUSTOMER').style(style);;
+        worksheet.cell(2,5).string('TOTAL BIAYA').style(style);
+        worksheet.cell(2,6).string('TOTAL BAYAR').style(style);
+        worksheet.cell(2,7).string('TOTAL KEMBALIAN').style(style);
+        for (i = 0; i < data1.length; i++) {
+            var cellrow             = i + 3;
+            var cellidservice       = data1[i].id_service || 0;
+            var cellidpayment       = data1[i].id_payment || 0;
+            var cellcustomerid      = data1[i].customer_id || 0;
+            var celltotalbiaya      = data1[i].totalbiaya || 0;
+            var celltotalbayar      = data1[i].totalbayar || 0;
+            var celltotalkembalian  = data1[i].totalkembalian || 0;
+            worksheet.cell(cellrow,1).number(i).style(style);
+            worksheet.cell(cellrow,2).number(cellidservice).style(style);
+            worksheet.cell(cellrow,3).string(cellidpayment).style(style);
+            worksheet.cell(cellrow,4).string(cellcustomerid).style(style);
+            worksheet.cell(cellrow,5).number(celltotalbiaya).style(style);
+            worksheet.cell(cellrow,6).number(celltotalbayar).style(style);
+            worksheet.cell(cellrow,7).number(celltotalkembalian).style(style);
+        }
+        workbook.write('REPORT-PAYMENT.xlsx');
+        res.sendFile( __dirname + '/REPORT-PAYMENT.xlsx')
+    });
 });
 
 // POST input service new

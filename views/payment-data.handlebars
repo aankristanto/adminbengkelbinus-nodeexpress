@@ -7,6 +7,12 @@
     <hr />
     <div class="row">
         <div class="col s12">
+            <a class="waves-effect waves-light btn modal-trigger" href="#modalexportxls"> <i class="material-icons left">file_download</i>EXPORT DATA</a>
+        </div>
+        <div class="col s12">
+            &nbsp;
+        </div>
+        <div class="col s12">
             <table>
                 <thead class="red white-text">
                     <tr>
@@ -32,4 +38,18 @@
         </div>
     </div>
 </div>
+
+<!-- Modal Structure -->
+<div id="modalexportxls" class="modal">
+    <div class="modal-content">
+      <h4>EXPORT DATA</h4>
+      <p>Pilih Periode Data</p>
+      <form action="/app/payment/data/export" method="POST" target="_blank">
+        <input type="date" name="inputperiode1" style="width: 30%;">
+        <input type="date" name="inputperiode2" style="width: 30%;">
+        <button type="submit" name="tblexport">PROCESS</button>
+      </form>
+    </div>
+    
+  </div>
 <script src="../../../js/moment.js"></script>
