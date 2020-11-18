@@ -59,23 +59,22 @@ app.use(session({
 // END - configure login using express-session
 
 
-
+// LOGIN PAGE
 app.get('/', (req,res) => {
     res.render('landing', {layout: 'index'});
 });
 
+// SHOW DASHBOARD
 app.get('/app/dashboard', (req,res) => {
     res.render('dashboard', {layout: 'user'});
 });
 
+//SHOW PAGE INPUT NEW SERVICE
 app.get('/app/service/new', (req,res) => {
     res.render('service-new', {layout: 'user'});
 });
 
-app.get('/app/service/data', (req,res) => {
-    res.render('service-data', {layout: 'user'});
-});
-
+// SHOW DATA SERVICE NEW ARRIVAL
 app.get('/app/service/new-arrival', (req,res) => {
     koneksi.query('SELECT * FROM services INNER JOIN customers ON services.customer_id=customers.customer_id WHERE status="N_A" ', (err, hasil) => {
         if(err) throw err;
@@ -83,6 +82,7 @@ app.get('/app/service/new-arrival', (req,res) => {
     });
 });
 
+// SHOW DATA SERVICE PROCESS
 app.get('/app/service/process', (req,res) => {
     koneksi.query('SELECT * FROM services INNER JOIN customers ON services.customer_id=customers.customer_id WHERE status="PROCESS" ', (err, hasil) => {
         if(err) throw err;
@@ -90,6 +90,7 @@ app.get('/app/service/process', (req,res) => {
     });
 });
 
+// SHOW DATA SERVICE CLOSE
 app.get('/app/service/close', (req,res) => {
     koneksi.query('SELECT * FROM services INNER JOIN customers ON services.customer_id=customers.customer_id WHERE status="CLOSE" ', (err, hasil) => {
         if(err) throw err;
@@ -97,6 +98,7 @@ app.get('/app/service/close', (req,res) => {
     });
 });
 
+// NEW PAYMENT PAGE
 app.get('/app/payment/new', (req,res) => {
     koneksi.query("SELECT * FROM services INNER JOIN customers ON services.customer_id=customers.customer_id WHERE services.id_payment='' OR services.id_payment IS NULL AND status='CLOSE' ", (err, hasil) => {
         if(err) throw err;
@@ -104,6 +106,7 @@ app.get('/app/payment/new', (req,res) => {
     });
 });
 
+// SET NEW PAYMENT BASED ON ID SERVICE
 app.get('/app/payment/new/:idservice', (req,res) => {
     var idservice = req.params.idservice;
     koneksi.query("SELECT * FROM services INNER JOIN customers ON services.customer_id=customers.customer_id WHERE services.id_service=?  ", [idservice], (err, hasil) => {
@@ -112,6 +115,7 @@ app.get('/app/payment/new/:idservice', (req,res) => {
     });
 });
 
+// SHOW DATA PAYMENT
 app.get('/app/payment/data', (req,res) => {
     koneksi.query("SELECT * FROM payments_data INNER JOIN services ON services.id_service=payments_data.id_service", (err, hasil) => {
         if(err) throw err;
@@ -120,12 +124,109 @@ app.get('/app/payment/data', (req,res) => {
     
 });
 
+// PRINT RECEIPT PAYMENT
 app.get('/app/payment/print-receipt/:idservice', (req, res) => {
     var idservice = req.params.idservice;
     koneksi.query("SELECT * FROM payments_data WHERE id_service=? ", [idservice], (err, hasil) => {
         if(err) throw err;
         res.render('payment-receipt', {layout: 'print-receipt', data: hasil});
     });
+});
+
+// POST LOGIN USER
+
+
+// INPUT NEW SERVICE AND SET STATUS TO N_A
+app.post('/app/inputservice', (req, res) => {
+    var customername            = req.body.customername;
+    var customerphone           = req.body.customerphone;
+    var customeraddress         = req.body.customeraddress;
+    var customerjeniskendaraan  = req.body.customerjeniskendaraan;
+    var customernopol           = req.body.customernopol;
+    var customertahunkendaraan  = req.body.customertahunkendaraan;
+    var customernorangka        = req.body.customernorangka;
+    var customernomesin         = req.body.customernomesin;
+    var customerhondanonhonda   = req.body.customerhondanonhonda;
+    var customerrequest         = req.body.customerrequest;
+    koneksi.query('INSERT INTO customers(customer_name, customer_phone, customer_address) VALUES(?, ?, ?)', 
+    [customername, customerphone, customeraddress], (err, hasil) => {
+        if(err) throw err;
+        koneksi.query('SELECT customer_id FROM customers WHERE customer_name=? AND customer_phone=? AND customer_address=? LIMIT 1', 
+        [customername, customerphone, customeraddress], (err, hasil1) => {
+            if(err) throw err;
+            console.log('customer id found 1');
+            var customerid = parseInt(hasil1[0].customer_id);
+            koneksi.query('INSERT INTO services(customer_id, jeniskendaraan, nopol, tahunkendaraan, norangka, nomesin, keterangan, date_in, status, merkhonda) VALUES(?, ?, ?, ?, ?, ?, ?, NOW(), "N_A", ?)', 
+                [customerid, customerjeniskendaraan, customernopol, customertahunkendaraan, customernorangka, customernomesin, customerrequest, customerhondanonhonda], (err, hasil2) => {
+                    if(err) throw err;
+                    koneksi.query('SELECT id_service FROM services WHERE customer_id=? AND nopol=? AND date_in=NOW()',
+                    [customerid, customernopol], (err, hasil2) => {
+                    if(err) throw err;
+                    res.redirect('/app/service/new-arrival');
+                });
+            });  
+        });
+    });
+});
+
+// SET SERVICE STATUS TO PROCESS
+app.post('/app/set-service-process', (req, res) => {
+    var idservice   = req.body.idservice;
+    var teknisi     = req.body.inputteknisi;
+    koneksi.query("UPDATE services SET technician=?, status='PROCESS' WHERE id_service=?",
+        [ teknisi, idservice ], (err, hasil) => {
+            if(err) throw err;
+            res.redirect('/app/service/process');
+        }
+    )
+});
+
+// SET SERVICE STATUS TO CLOSE
+app.post('/app/set-service-close', (req, res) => {
+    var idservice       = req.body.idservice;
+    var resolvdetail    = req.body.inputresolv;
+    koneksi.query("UPDATE services SET resolving_detail=?, status='CLOSE', date_close=NOW() WHERE id_service=?",
+        [resolvdetail, idservice], (err, hasil) => {
+            if(err) throw err;
+            res.redirect('/app/payment/new/' + idservice);
+        }
+    )
+});
+
+app.post('/app/set-payment', (req, res) => {
+    var waktuskrg       = Date.now();
+    var idservice       = req.body.inputidservice;
+    var detailbayar1    = req.body.inputdetailbayar1 || "";
+    var detailbayar2    = req.body.inputdetailbayar2 || "";
+    var detailbayar3    = req.body.inputdetailbayar3 || "";
+    var detailbayar4    = req.body.inputdetailbayar4 || "";
+    var detailbayar5    = req.body.inputdetailbayar5 || "";
+    var biayabayar1     = req.body.inputbiayabayar1 || 0;
+    var biayabayar2     = req.body.inputbiayabayar2 || 0;
+    var biayabayar3     = req.body.inputbiayabayar3 || 0;
+    var biayabayar4     = req.body.inputbiayabayar4 || 0;
+    var biayabayar5     = req.body.inputbiayabayar5 || 0;
+    var totalbiaya      = req.body.inputtotalbiaya;
+    var totalbayar      = req.body.inputtotalbayar;
+    var totalkembalian  = req.body.inputtotalkembalian;
+    var idpayment       = idservice + waktuskrg;
+    koneksi.query("INSERT INTO payments_data(id_payment, id_service, barangjasa1, barangjasa2, barangjasa3, barangjasa4, barangjasa5, biaya1, biaya2, biaya3, biaya4, biaya5, totalbiaya, totalbayar, totalkembalian, trx_date) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?, NOW())",
+        [ idpayment, idservice, detailbayar1, detailbayar2, detailbayar3, detailbayar4, detailbayar5, biayabayar1, biayabayar2, biayabayar3, biayabayar4, biayabayar5, totalbiaya, totalbayar, totalkembalian],
+        (err, hasil) => {
+            if(err) throw err;
+            koneksi.query("UPDATE services SET id_payment=? WHERE id_service=? AND status='CLOSE' ",
+            [ idpayment, idservice], (err, hasil) => {
+                    if(err) throw err;
+                    if(hasil.length = 0){
+                        res.send("Data not found");
+                    } else {
+                        res.redirect('/app/payment/print-receipt/' + idservice);
+                    }
+                    
+                }
+            )
+        }
+    )
 });
 
 app.post('/app/payment/data/export', (req, res) => {
@@ -173,97 +274,6 @@ app.post('/app/payment/data/export', (req, res) => {
         workbook.write('REPORT-PAYMENT.xlsx');
         res.sendFile( __dirname + '/REPORT-PAYMENT.xlsx')
     });
-});
-
-// POST input service new
-app.post('/app/inputservice', (req, res) => {
-    var customername            = req.body.customername;
-    var customerphone           = req.body.customerphone;
-    var customeraddress         = req.body.customeraddress;
-    var customerjeniskendaraan  = req.body.customerjeniskendaraan;
-    var customernopol           = req.body.customernopol;
-    var customertahunkendaraan  = req.body.customertahunkendaraan;
-    var customernorangka        = req.body.customernorangka;
-    var customernomesin         = req.body.customernomesin;
-    var customerhondanonhonda   = req.body.customerhondanonhonda;
-    var customerrequest         = req.body.customerrequest;
-    koneksi.query('INSERT INTO customers(customer_name, customer_phone, customer_address) VALUES(?, ?, ?)', 
-    [customername, customerphone, customeraddress], (err, hasil) => {
-        if(err) throw err;
-        koneksi.query('SELECT customer_id FROM customers WHERE customer_name=? AND customer_phone=? AND customer_address=? LIMIT 1', 
-        [customername, customerphone, customeraddress], (err, hasil1) => {
-            if(err) throw err;
-            console.log('customer id found 1');
-            var customerid = parseInt(hasil1[0].customer_id);
-            koneksi.query('INSERT INTO services(customer_id, jeniskendaraan, nopol, tahunkendaraan, norangka, nomesin, keterangan, date_in, status, merkhonda) VALUES(?, ?, ?, ?, ?, ?, ?, NOW(), "N_A", ?)', 
-                [customerid, customerjeniskendaraan, customernopol, customertahunkendaraan, customernorangka, customernomesin, customerrequest, customerhondanonhonda], (err, hasil2) => {
-                    if(err) throw err;
-                    koneksi.query('SELECT id_service FROM services WHERE customer_id=? AND nopol=? AND date_in=NOW()',
-                    [customerid, customernopol], (err, hasil2) => {
-                    if(err) throw err;
-                    res.redirect('/app/service/new-arrival');
-                });
-            });  
-        });
-    });
-});
-
-app.post('/app/set-service-process', (req, res) => {
-    var idservice   = req.body.idservice;
-    var teknisi     = req.body.inputteknisi;
-    koneksi.query("UPDATE services SET technician=?, status='PROCESS' WHERE id_service=?",
-        [ teknisi, idservice ], (err, hasil) => {
-            if(err) throw err;
-            res.redirect('/app/service/process');
-        }
-    )
-});
-
-app.post('/app/set-service-close', (req, res) => {
-    var idservice       = req.body.idservice;
-    var resolvdetail    = req.body.inputresolv;
-    koneksi.query("UPDATE services SET resolving_detail=?, status='CLOSE', date_close=NOW() WHERE id_service=?",
-        [resolvdetail, idservice], (err, hasil) => {
-            if(err) throw err;
-            res.redirect('/app/payment/new/' + idservice);
-        }
-    )
-});
-
-app.post('/app/set-payment', (req, res) => {
-    var waktuskrg       = Date.now();
-    var idservice       = req.body.inputidservice;
-    var detailbayar1    = req.body.inputdetailbayar1 || "";
-    var detailbayar2    = req.body.inputdetailbayar2 || "";
-    var detailbayar3    = req.body.inputdetailbayar3 || "";
-    var detailbayar4    = req.body.inputdetailbayar4 || "";
-    var detailbayar5    = req.body.inputdetailbayar5 || "";
-    var biayabayar1     = req.body.inputbiayabayar1 || 0;
-    var biayabayar2     = req.body.inputbiayabayar2 || 0;
-    var biayabayar3     = req.body.inputbiayabayar3 || 0;
-    var biayabayar4     = req.body.inputbiayabayar4 || 0;
-    var biayabayar5     = req.body.inputbiayabayar5 || 0;
-    var totalbiaya      = req.body.inputtotalbiaya;
-    var totalbayar      = req.body.inputtotalbayar;
-    var totalkembalian  = req.body.inputtotalkembalian;
-    var idpayment       = idservice + waktuskrg;
-    koneksi.query("INSERT INTO payments_data(id_payment, id_service, barangjasa1, barangjasa2, barangjasa3, barangjasa4, barangjasa5, biaya1, biaya2, biaya3, biaya4, biaya5, totalbiaya, totalbayar, totalkembalian, trx_date) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?, NOW())",
-        [ idpayment, idservice, detailbayar1, detailbayar2, detailbayar3, detailbayar4, detailbayar5, biayabayar1, biayabayar2, biayabayar3, biayabayar4, biayabayar5, totalbiaya, totalbayar, totalkembalian],
-        (err, hasil) => {
-            if(err) throw err;
-            koneksi.query("UPDATE services SET id_payment=? WHERE id_service=? AND status='CLOSE' ",
-            [ idpayment, idservice], (err, hasil) => {
-                    if(err) throw err;
-                    if(hasil.length = 0){
-                        res.send("Data not found");
-                    } else {
-                        res.redirect('/app/payment/print-receipt/' + idservice);
-                    }
-                    
-                }
-            )
-        }
-    )
 });
 
 // handle url not found and redirect to dashboard
