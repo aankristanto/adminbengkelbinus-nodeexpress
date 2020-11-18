@@ -16,27 +16,43 @@
     </div>
     
     <div class="row">
-        <div class="col l6 m6 s12 center">
-            <img src="./images/Astra-International-Logo.png" class="responsive-img"
-                alt="Logo Astra International Logo" />
-            <br /><br />
-            <img src="./images/logobinus.webp" class="responsive-img" alt="Logo SMK Bina Nusantara Semarang" />
-            &nbsp; &nbsp; &nbsp; &nbsp; 
-            <img src="./images/honda-logo.png" class="responsive-img" alt="Logo Honda" style="max-width: 20%;" />
-            <br/><br/>
+        <div class="col l2 m2 s4 center">
+            <img src="./images/Astra-International-Logo.png" class="responsive-img" alt="Logo Astra International Logo" />
         </div>
-        <div class="col l6 m6 s12 teal white-text z-depth-2" style="border-radius: 15px;">
-            <br/>
-            <form>
-                <br/>
-                <input type="text" name="inputuser" id="input_user" placeholder="Username">
-                <br/>
-                <input type="password" name="inputpass" id="input_pass" placeholder="Password">
-                <br/>
-                <a class="waves-effect waves-light btn orange">LOGIN</a>
-                <br/>
-            </form>
-            <br/>
+        <div class="col l2 m2 s4 center">
+            <img src="./images/logobinus.webp" class="responsive-img" alt="Logo SMK Bina Nusantara Semarang" />
+        </div>
+        <div class="col l2 m2 s4 center">
+            <img src="./images/honda-logo.png" class="responsive-img" alt="Logo Honda"/>
+        </div>
+        
+        <div class="col l6 m6 s12 red white-text z-depth-2" style="border-radius: 15px;">
+                <div class="row">
+                    <form class="col s11" action="/app/auth" method="POST">
+                        <div class="container white-text">
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <h4><b>LOGIN</b></h4>
+                            </div>
+                            <div class="input-field col s12">
+                                <i class="material-icons prefix white-text">account_circle</i>
+                                <input name="inputusername" id="icon_prefix" type="text" class="white-text validate">
+                                <label for="icon_prefix" class="white-text">Username</label>
+                            </div>
+                            <div class="input-field col s12">
+                                <i class="material-icons prefix white-text">vpn_key</i>
+                                <input name="inputpassword" id="icon_password" type="password" class="white-text validate">
+                                <label for="icon_password" class="white-text">Password</label>
+                            </div>
+                            <div class="input-field col s12">
+                                <button type="submit" class="waves-effect waves-light btn orange">LOGIN</a>
+                            </div>
+                        </div>
+                        </div>
+                    </form>
+                </div>
+
+            
         </div>
     </div>
 </div>
