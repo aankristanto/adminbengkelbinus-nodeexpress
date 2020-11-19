@@ -38,8 +38,8 @@ app.use(compression());
 //START - configure connection to database
 var koneksi = mysql.createConnection({
     host: 'localhost',
-    user: 'aankristanto1',
-    password: '082234725445',
+    user: 'root',
+    password: '',
     database: 'adminbengkelbinus'
 });
 koneksi.connect((err) => {

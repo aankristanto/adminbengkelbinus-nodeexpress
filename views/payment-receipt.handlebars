@@ -8,27 +8,31 @@
 <input type="hidden" id="totalbayar" value="{{totalbayar}}">
 <input type="hidden" id="totalkembalian" value="{{totalkembalian}}">
 
-<div style="width: 8cm; font-family:'Courier New', Courier, monospace;">
+<div style="width: 7cm; font-family:'Courier New', Courier, monospace;">
     <table>
         <tr>
             <td><img src="../../../images/logobinus.webp" style="width: 50px;"></td>
-            <td style="text-align:center; font-size:small"><p><b>TEACHING FACTORY<br/>SMK BINA NUSANTARA SEMARANG</b><br/>Telp/WA 024-8662971</p></td>
+            <td style="text-align:center; font-size:small">
+                <p><b>TEACHING FACTORY<br />SMK BINA NUSANTARA SEMARANG<br />Telp/WA 024-8662971</b></p>
+            </td>
             <td><img src="../../../images/hona-logo.png" style="width: 50px;"></td>
         </tr>
     </table>
-    <br/>
+    <br />
     <div style="width: 100%; text-align:center; font-size:small">
         <table style="margin-left:auto; margin-right:auto;">
             <tr>
-                <td style="text-align: center;">{{id_service}}</td><td style="text-align: center;">/ LINDA / </td><td id="tglnow" style="text-align: center;"></td>
+                <td style="text-align: center;font-weight: bold;">{{id_service}}</td>
+                <td style="text-align: center;font-weight: bold;">/ ADMIN / </td>
+                <td id="tglnow" style="text-align: center;font-weight: bold;"></td>
             </tr>
         </table>
     </div>
-    <div style="width: 100%; text-align:center;">
-        <b>-------------------------------</b>
+    <div style="width: 100%; text-align:center;font-weight: bold;">
+        <b>---------------------------</b>
     </div>
     <div style="width: 100%;">
-        <table style="font-size: small; width: 8cm; font-size:small;">
+        <table style="font-size: small; width: 7cm; font-size:small;font-weight: bold;">
             <tr>
                 <td><b>BARANG / JASA</b></td>
                 <td><b>HARGA</b></td>
@@ -54,39 +58,39 @@
                 <td id="b5"></td>
             </tr>
             <tr>
-                <td style="text-align: right;">TOTAL &nbsp;</td>
+                <td style="text-align: right;font-weight: bold;">TOTAL &nbsp;</td>
                 <td id="b6"></td>
             </tr>
             <tr>
-                <td style="text-align: right;">BAYAR &nbsp;</td>
+                <td style="text-align: right;font-weight: bold;">BAYAR &nbsp;</td>
                 <td id="b7"></td>
             </tr>
             <tr>
-                <td style="text-align: right;">KEMBALIAN &nbsp;</td>
+                <td style="text-align: right;font-weight: bold;">KEMBALIAN &nbsp;</td>
                 <td id="b8"></td>
             </tr>
         </table>
     </div>
-    <div style="width: 100%; text-align:center;">
-        <b>-------------------------------</b>
+    <div style="width: 100%; text-align:center;font-weight: bold;">
+        <b>---------------------------</b>
         <p>{{ id_payment }}</p>
-        <br/>
+        <br />
     </div>
 </div>
 <script src="../../../js/moment.js"></script>
 <script>
-    function FormatRupiah(value){
-        var	reverse = value.toString().split('').reverse().join(''),
-	    ribuan  = reverse.match(/\d{1,3}/g);
-	    ribuan  = ribuan.join('.').split('').reverse().join('');
+    function FormatRupiah(value) {
+        var reverse = value.toString().split('').reverse().join(''),
+            ribuan = reverse.match(/\d{1,3}/g);
+        ribuan = ribuan.join('.').split('').reverse().join('');
         return ribuan;
     }
     function updateLatestDate(sensorsData) {
         return new Date(Math.max.apply(null, sensorsData.map(function (e) {
             return new Date(e.MeasureDate).toUTCString();
         })));
-    }  
-    window.onload = function renderNominal(){
+    }
+    window.onload = function renderNominal() {
         var b1 = document.getElementById("biaya1").value;
         var b2 = document.getElementById("biaya2").value;
         var b3 = document.getElementById("biaya3").value;
@@ -104,7 +108,7 @@
         document.getElementById("b6").innerHTML = "Rp. " + FormatRupiah(b6);
         document.getElementById("b7").innerHTML = "Rp. " + FormatRupiah(b7);
         document.getElementById("b8").innerHTML = "Rp. " + FormatRupiah(b8);
-        document.getElementById("tglnow").innerHTML = tglreceipt;   
+        document.getElementById("tglnow").innerHTML = tglreceipt;
     }
 
 </script>
